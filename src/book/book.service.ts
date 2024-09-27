@@ -18,4 +18,16 @@ export class BookService {
       return error;
     }
   }
+
+  async findAll(){
+    try{
+      const books = await this.bookRepository.find()
+      if (books){
+        return 'no book was found'
+      }
+      return books
+    }catch(error){
+      return error
+    }
+  }
 }

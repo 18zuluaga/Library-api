@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   Body,
+  Get,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -13,5 +14,10 @@ export class BookController {
   @Post()
   create(@Body() createBookDto: CreateBookDto) {
     return this.bookService.create(createBookDto);
+  }
+
+  @Get()
+  findAll(){
+    return this.bookService.findAll()
   }
 }
