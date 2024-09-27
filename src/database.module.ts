@@ -13,6 +13,6 @@ import { DatabaseConfigService } from './common/config/connection-db.config';
 })
 export class DatabaseModule implements OnModuleInit {
   async onModuleInit() {
-    console.log("se esta ejecutando al aplicacion")
+    console.log('se esta ejecutando al aplicacion');
   }
 }
