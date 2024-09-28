@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,15 +19,27 @@ export class BookService {
     }
   }
 
-  async findAll(){
-    try{
-      const books = await this.bookRepository.find()
-      if (books){
-        return 'no book was found'
+  async findAll(): Promise<Book[]> {
+    try {
+      const books = await this.bookRepository.find();
+      if (books.length === 0) {
+        throw new NotFoundException('No books were found');
       }
-      return books
-    }catch(error){
-      return error
+      return books;
+    } catch (error) {
+      throw new InternalServerErrorException('An error occurred while fetching books');
+    }
+  }
+
+  async findById(id: number): Promise<Book> {
+    try {
+      const book = await this.bookRepository.findOneBy({ id });
+      if (!book) {
+        throw new NotFoundException(`Book with ID ${id} not found`);
+      }
+      return book;
+    } catch (error) {
+      throw new InternalServerErrorException('An error occurred while fetching the book');
     }
   }
 }
