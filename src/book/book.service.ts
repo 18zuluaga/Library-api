@@ -57,4 +57,17 @@ export class BookService {
       throw new InternalServerErrorException('An error occurred while fetching the book');
     }
   }
+
+  async delete(id:number){
+    try{
+      const book = await this.bookRepository.findOneBy({ id });
+      if (!book) {
+        throw new NotFoundException(`Book with ID ${id} not found`);
+      }
+
+      return await this.bookRepository.delete(id)
+    } catch (error){
+      throw new InternalServerErrorException('An error occurred while fetching the book');
+    }
+  }
 }
